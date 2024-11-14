@@ -8,6 +8,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import CalculatorLogo from '../../assets/Icons/Calculator.svg';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { SidebarContext } from 'components/context/SidebarContext';
+import { useSelector } from 'react-redux';
 
 
 const PropertyData = [
@@ -63,8 +64,9 @@ const testimonials = [
 ];
 
 const HomeScreen = () => {
-    const context = useContext(SidebarContext);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
+    const context = useContext(SidebarContext);
 
     const { isOpen, toggleSidebar } = context;
 

@@ -1119,6 +1119,8 @@ PODS:
     - React-jsi (= 0.73.8)
     - React-logger (= 0.73.8)
     - React-perflogger (= 0.73.8)
+  - RNCAsyncStorage (2.0.0):
+    - React-Core
   - RNCMaskedView (0.3.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1240,6 +1242,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1366,6 +1369,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNGestureHandler:
@@ -1444,6 +1449,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 1c40cfe98dcc7b06354d96a1cd8ee10cbc4cc797
   React-utils: 4cc2ba652f5df1c8f0461d4ae9e3ee474c1354ea
   ReactCommon: 1da3fc14d904883c46327b3322325eebf60a720a
+  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNCMaskedView: c8e1f01fc0f41ddf4e16246aef1143b3311588ca
   RNGestureHandler: 7ff7793b53454ed4a2faf52fb3fcd7804d0b494c
   RNReanimated: 51ba6c9ecdde77caf364c7e5ae59a089c7dd98b3
@@ -1451,7 +1457,7 @@ SPEC CHECKSUMS:
   RNSVG: 8b1a777d54096b8c2a0fd38fc9d5a454332bbb4d
   RNVectorIcons: 04d49881dab53fb3397b1129085271d9d21885c1
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  Yoga: 2a16e58450c48e110211dae1159fb114bbcdcfc0
+  Yoga: e5b887426cee15d2a326bdd34afc0282fc0486ad
 
 PODFILE CHECKSUM: c8e755c29f376a0ba62bcba1af580defc9912d3d
 

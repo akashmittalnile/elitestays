@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import Logo from 'assets/Icons/splash.svg';
 
@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'black'
   },
 });
