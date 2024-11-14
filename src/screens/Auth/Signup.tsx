@@ -1,5 +1,5 @@
-import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, ImageBackground, Image,ScrollView} from 'react-native';
+import React,{useState,useEffect} from 'react';
 import BgImage from 'assets/Images/signup.png';
 import Profile from 'assets/Icons/profile.svg';
 import {colors} from '../../utils/Constant';
@@ -14,11 +14,58 @@ import CustomTextInput from 'components/Input/CustomTextInput';
 import CustomPasswordInput from 'components/Input/CustomPasswordInput';
 import Header from 'components/Header/Header';
 import CustomPhoneInput from 'components/Input/CustomPhoneInput';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import axios from 'axios';
 
-const Signup = () => {
+
+
+
+
+type RootStackParamList = {
+  SignIn: undefined;
+  Signup: undefined;
+};
+
+
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
+
+
+const Signup = (): JSX.Element => {
+  const navigation = useNavigation<NavigationProp>();
+  const [name,setName] = useState<string>('');
+  const [email,setEmail] = useState<string>('');
+  const [phone,setPhone] = useState<string>('');
+  const [password,setPassword] = useState<string>('');
+  const [confirmPassword,setConfirmPassword] = useState<string>('');
+  
+
+  const handleSignup = async () => {
+    
+    try {
+        const response = await axios.post(`${process.env.AUTH_URL}/register`, {
+            name: name,
+            email: email,
+            password: password,
+            phone: phone,
+            address: 'address',
+        });
+        console.log(response.data); 
+    } catch (err) {
+        if (err.response) {
+            console.log('Error Status:', err.response.status);
+            console.log('Error Data:', err.response.data);
+        } else {
+            console.log('Error:', err.message);
+        }
+    }
+};
+
   return (
+    <ScrollView>
     <View style={styles.container}>
-      <Header heading="Sign In" />
+      <Header heading="Sign In" onPressBack={()=>navigation.goBack()} />
       <ImageBackground
         source={{uri: Image.resolveAssetSource(BgImage)?.uri}}
         style={styles.bgImage}
@@ -33,21 +80,22 @@ const Signup = () => {
         <CustomTextInput
           SvgImageComponent={<Profile />}
           placeholder="Name"
-          onChangeText={() => {}}
+          onChangeText={(text: string) => setName(text)}
+          
           style={styles.inputBoxStyle}
         />
-        <CustomTextInput onChangeText={() => {}} style={styles.inputBoxStyle} />
+        <CustomTextInput onChangeText={(text:string) => {setEmail(text)}} style={styles.inputBoxStyle} />
         <CustomPhoneInput
-          onChangeText={() => {}}
+          onChangeText={(text:string) => {setPhone(text)}}
           style={styles.inputBoxStyle}
           placeholder='Phone'
         />
         <CustomPasswordInput
-          onChangeText={() => {}}
+          onChangeText={(text:string) => {setPassword(text)}}
           style={styles.inputBoxStyle}
         />
         <CustomPasswordInput
-          onChangeText={() => {}}
+          onChangeText={(text:string) => {setConfirmPassword(text)}}
           style={styles.inputBoxStyle}
           placeholder="Confirm Password"
         />
@@ -55,7 +103,7 @@ const Signup = () => {
           buttonText="Signup"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
-          onPress={() => {}}
+          onPress={() => {handleSignup()}}
         />
         <View style={styles.policy}>
           <Text
@@ -67,7 +115,7 @@ const Signup = () => {
             Already Have An Account?
           </Text>
           <BorderLessButton
-            onPress={() => {}}
+            onPress={() => {navigation.navigate('SignIn')}}
             style={styles.policyButton}
             buttonText="SignIn"
             buttonTextStyle={styles.policyText}
@@ -75,6 +123,7 @@ const Signup = () => {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 };
 

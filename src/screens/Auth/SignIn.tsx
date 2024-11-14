@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import BgImage from 'assets/Images/Login.png';
 import Logo from 'assets/Icons/logo.svg';
 import {colors} from '../../utils/Constant';
@@ -13,11 +13,57 @@ import BorderLessButton from 'components/Buttons/BorderLessButton';
 import CustomTextInput from 'components/Input/CustomTextInput';
 import CustomPasswordInput from 'components/Input/CustomPasswordInput';
 import Header from 'components/Header/Header';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import axios from 'axios';
+import { useToast } from "react-native-toast-notifications";
 
-const SignIn = () => {
+
+type RootStackParamList = {
+  SignIn: undefined;
+  Signup: undefined;
+}; 
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
+
+const SignIn = (): JSX.Element => {
+  const toast = useToast();
+
+  const [email,setEmail] = useState<string>('');
+  const [password,setPassword] = useState<string>('');
+
+  const handleSignin = async () => {
+    console.log(email,password);
+    try {
+        const response = await axios.post(`${process.env.AUTH_URL}/login`, {
+            email: email,
+            password: password,
+            device_id: 'device_i',
+        });
+        console.log(response.data); 
+        toast.show("Login Successful", {
+          type: "success",
+        });
+    } catch (err) {
+      
+        if (err.response) {
+          toast.show(err.response.data.message, {
+            type: "danger",
+            placement: "top",
+            animationType: "zoom-in",
+          });
+            console.log('Error Status:', err.response.status);
+            console.log('Error Data:', err.response.data);
+        } else {
+            console.log('Error:', err.message);
+        }
+    }
+  }
+
+  const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
-      <Header heading="Sign In" />
+      <Header heading="Sign In" onPressBack={()=>{navigation.goBack()}} />
       <ImageBackground
         source={{uri: Image.resolveAssetSource(BgImage)?.uri}}
         style={styles.bgImage}
@@ -30,9 +76,9 @@ const SignIn = () => {
           styles.text
         }>{`Please enter your sign-in${'\n'}information`}</Text>
       <View style={styles.subContainer}>
-        <CustomTextInput onChangeText={() => {}} style={styles.inputBoxStyle} />
+        <CustomTextInput onChangeText={(text) => {setEmail(text)}} style={styles.inputBoxStyle} />
         <CustomPasswordInput
-          onChangeText={() => {}}
+          onChangeText={(text) => {setPassword(text)}}
           style={styles.inputBoxStyle}
         />
         <BorderLessButton
@@ -44,7 +90,7 @@ const SignIn = () => {
           buttonText="Login"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
-          onPress={() => {}}
+          onPress={() => {handleSignin()}}
         />
         <View style={styles.policy}>
           <Text
@@ -56,7 +102,7 @@ const SignIn = () => {
             Don’t Have An Account?
           </Text>
           <BorderLessButton
-            onPress={() => {}}
+            onPress={() => {navigation.goBack()}}
             style={styles.policyButton}
             buttonText="Signup Now"
             buttonTextStyle={styles.policyText}

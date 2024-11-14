@@ -19,7 +19,7 @@ import {
 interface CustomPasswordInputProps {
   style?: ViewStyle;
   placeholder?: string;
-  onChangeText: () => void;
+  onChangeText: (text: string) => void;
   email?: boolean;
   error?: boolean;
 }
@@ -31,8 +31,8 @@ const CustomPasswordInput: React.FC<CustomPasswordInputProps> = ({
   error = false,
 }) => {
   const [secureTextEntry, setSecureTextEntry] = React.useState<boolean>(true);
-  const _onChangeText = () => {
-    onChangeText && onChangeText();
+  const _onChangeText = (text:string) => {
+    onChangeText && onChangeText(text);
   };
 
   const secureTextEntryHandler = () => {

@@ -1,5 +1,5 @@
 import {View, Text, TextInput, StyleSheet, ViewStyle} from 'react-native';
-import React from 'react';
+import React,{useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -11,21 +11,29 @@ interface CustomPhoneInputProps {
   SvgImageComponent?: any;
   style?: ViewStyle;
   placeholder?: string;
-  onChangeText: () => void;
+  onChangeText: (text:string) => void;
   email?: boolean;
   error?: boolean;
 }
 
 const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
+
   SvgImageComponent,
   style,
   placeholder = 'Email Address',
   onChangeText,
   error = false,
 }) => {
-  const _onChangeText = () => {
-    onChangeText && onChangeText();
-  };
+
+  const [country, setCountry] = useState<any>(null);
+  const [phone, setPhone] = useState<string>('');
+
+  const _onChangeText = (text:string) => {
+    setPhone(text);
+    onChangeText && onChangeText(text);
+  }
+
+
   return (
     <View
       style={[
@@ -36,6 +44,16 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
       <CountryPicker
         containerButtonStyle={styles.countryPicker}
         withFlag={true}
+        withCallingCode={true}
+        withCallingCodeButton={true}
+        withFilter={true}
+        withAlphaFilter={true}
+        withEmoji={true}
+        withCountryNameButton={true}
+        withCurrencyButton={true}
+        withCurrency={true}
+        withFlagButton={true}
+        withModal={true}
         
       />
       <View style={styles.subContainer}>
@@ -44,6 +62,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
           placeholder={placeholder}
           onChangeText={_onChangeText}
           placeholderTextColor="rgba(255,255,255,0.5)"
+          
         />
       </View>
     </View>

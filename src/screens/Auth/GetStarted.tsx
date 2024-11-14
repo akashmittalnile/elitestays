@@ -12,8 +12,18 @@ import {SvgXml} from 'react-native-svg';
 import GoldenButton from 'components/Buttons/GoldenButton';
 import BlackThemeButton from 'components/Buttons/BlackThemeButton';
 import BorderLessButton from 'components/Buttons/BorderLessButton';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const GetStarted = () => {
+type RootStackParamList = {
+  SignIn: undefined;
+  Signup: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
+
+const GetStarted: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -31,13 +41,13 @@ const GetStarted = () => {
         buttonText="Login"
         style={styles.goldenButtonStyle}
         buttonTextStyle={styles.goldenTextStyle}
-        onPress={() => {}}
+        onPress={() => {navigation.navigate('SignIn')}}
       />
       <BlackThemeButton
         buttonText="Signup"
         style={styles.goldenButtonStyle}
         buttonTextStyle={{...styles.goldenTextStyle, color: colors.gold}}
-        onPress={() => {}}
+        onPress={() => {navigation.navigate('Signup')}}
       />
       <Text
         style={{

@@ -11,9 +11,11 @@ interface CustomTextInputProps {
   SvgImageComponent?: any;
   style?: ViewStyle;
   placeholder?: string;
-  onChangeText: () => void;
+  onChangeText: (text:String) => void;
   email?: boolean;
   error?: boolean;
+  placeholderTextColor?: string;
+
 }
 
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
@@ -22,9 +24,12 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   placeholder = 'Email Address',
   onChangeText,
   error = false,
+  placeholderTextColor,
+  
+  
 }) => {
-  const _onChangeText = () => {
-    onChangeText && onChangeText();
+  const _onChangeText = (text:string) => {
+    onChangeText && onChangeText(text);
   };
   return (
     <View
@@ -34,12 +39,13 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         style,
       ]}>
       {SvgImageComponent && SvgImageComponent}
-      {!SvgImageComponent && <Email />}
+      {/* {!SvgImageComponent && <Email />} */}
       <TextInput
         style={styles.input}
         placeholder={placeholder}
         onChangeText={_onChangeText}
-          placeholderTextColor='rgba(255,255,255,0.5)'
+        placeholderTextColor={placeholderTextColor}
+        
       />
     </View>
   );
