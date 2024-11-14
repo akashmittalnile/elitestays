@@ -20,6 +20,10 @@ import MembershipPlan from 'screens/sidebarlisting/MembershipPlan';
 import PrivacyPolicy from 'screens/sidebarlisting/PrivacyPolicy';
 import PaymentHistory from 'screens/sidebarlisting/PaymentHistory';
 import TermsAndConditions from 'screens/sidebarlisting/TermsAndConditions';
+import ContactInfoScreen from 'screens/propertyMultistepform/ContactInfoScreen';
+import PropertyDetailStepScreen from 'screens/propertyMultistepform/PropertyDetailStepScreen';
+import PropertyManagementPreferences from 'screens/propertyMultistepform/PropertyManagementPreferences';
+import UserSetupCompleteScreen from 'screens/Auth/UserSetupCompleteScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { BlurView } from '@react-native-community/blur';
 import AppointmentBooking from 'screens/sidebarlisting/Appointments/AppointmentBooking';
@@ -156,6 +160,26 @@ function MainNavigation() {
             <Stack.Screen
               name="AppointmentBooking"
               component={AppointmentBooking}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ContactInfoScreen"
+              component={ContactInfoScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PropertyDetailStepScreen"
+              component={PropertyDetailStepScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PropertyManagementPreferences"
+              component={PropertyManagementPreferences}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="UserSetupCompleteScreen"
+              component={UserSetupCompleteScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

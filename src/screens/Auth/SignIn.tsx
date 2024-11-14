@@ -17,17 +17,26 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 import { useToast } from "react-native-toast-notifications";
-
-
+import { useDispatch } from 'react-redux';
+// import {login} from 'src/reduxOld/slices/authSlice'
+import { useSelector } from 'react-redux';
 type RootStackParamList = {
   SignIn: undefined;
   Signup: undefined;
+  UserSetupCompleteScreen: undefined;
 }; 
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
+
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup',>;
 
 const SignIn = (): JSX.Element => {
   const toast = useToast();
+  const dispatch = useDispatch();
+  const user = useSelector((state:any) => state.auth.user);
+  const token = useSelector((state:any) => state.auth.token);
+  console.log(user,token);
+
 
   const [email,setEmail] = useState<string>('');
   const [password,setPassword] = useState<string>('');
@@ -40,10 +49,24 @@ const SignIn = (): JSX.Element => {
             password: password,
             device_id: 'device_i',
         });
-        console.log(response.data); 
-        toast.show("Login Successful", {
+        if(response.data.message === 'Logged in successfully'){
+        toast.show(response.data.message, {
           type: "success",
+          duration: 2000,
         });
+        const user = response.data.user;
+        const token = response.data.authorization.token;
+        // dispatch(login({user,token}));
+        navigation.navigate('UserSetupCompleteScreen');
+      }else{
+        toast.show(response.data.message, {
+          type: "danger",
+          placement: "top",
+          animationType: "zoom-in",
+          duration: 2000,
+        });
+        navigation.navigate('UserSetupCompleteScreen');
+      }
     } catch (err) {
       
         if (err.response) {
@@ -51,6 +74,7 @@ const SignIn = (): JSX.Element => {
             type: "danger",
             placement: "top",
             animationType: "zoom-in",
+            duration: 2000,
           });
             console.log('Error Status:', err.response.status);
             console.log('Error Data:', err.response.data);
