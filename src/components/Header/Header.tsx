@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
 import { BlurView } from '@react-native-community/blur';
+import { useNavigation } from '@react-navigation/native';
 
 interface HeaderProps {
   heading?: string;
@@ -30,8 +31,12 @@ const Header: React.FC<HeaderProps> = ({
   showGridIcon = false,
   headingStyle = {},
 }) => {
+
+  const navigation = useNavigation();
+
   const onPressBackHandler = () => {
-    onPressBack && onPressBack();
+    // onPressBack && onPressBack();
+    navigation?.goBack()
   };
 
   const onPressNotificationHandler = () => {

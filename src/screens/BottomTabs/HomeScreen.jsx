@@ -9,6 +9,7 @@ import CalculatorLogo from '../../assets/Icons/Calculator.svg';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { SidebarContext } from 'components/context/SidebarContext';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 
 const PropertyData = [
@@ -65,6 +66,8 @@ const testimonials = [
 
 const HomeScreen = () => {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigation = useNavigation();
+
 
     const context = useContext(SidebarContext);
 
@@ -139,7 +142,8 @@ const HomeScreen = () => {
                     <View style={styles.left}>
                         <Text style={{ color: 'white', fontSize: 17 }}>Post New</Text>
                         <Text style={{ color: '#D7BC70', fontSize: 25, marginTop: 5, fontWeight: '500' }}>Properties</Text>
-                        <GoldenButton buttonText="Post" style={styles.goldenButton} buttonTextStyle={{ color: 'black', fontWeight: '500' }} />
+                        <GoldenButton buttonText="Post" style={styles.goldenButton} buttonTextStyle={{ color: 'black', fontWeight: '500' }} 
+                        onPress={()=>navigation.navigate('ContactInfoScreen')}/>
                     </View>
                     <View style={styles.right}>
                         <Image source={require('../../assets/Images/GroupImage.png')} style={{ width: '100%', height: '100%' }} />

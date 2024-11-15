@@ -10,38 +10,38 @@ import GoldenButton from 'components/Buttons/GoldenButton';
 
 const ContactInfoScreen = () => {
   return (
-    <View style = {styles.container}>
-      <Header heading="Property Listing"/>
+    <View style={styles.container}>
+      <Header heading="Property Listing" />
       <LinearGradient
-      colors={['#ECE49E', '#D7BC70', '#AB8B51']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      style={styles.gradientBar}
-    >
-      <Text>Step 01/03</Text>
-    </LinearGradient>
-    <Text style = {styles.mainText}>Contact Information</Text>
-    <Text style = {styles.subText}>What Is Your Full Name And Preferred Contact Information</Text>
-    <View style = {styles.subContainer}>
-      <CustomTextInput
-        SvgImageComponent={<Profile />}
-        placeholder="Name"
-        onChangeText={() => {}}
-        style={styles.inputBoxStyle}
-      />
-      <CustomTextInput onChangeText={() => {}} style={styles.inputBoxStyle} />
-      <CustomPhoneInput
-        onChangeText={() => {}}
-        style={styles.inputBoxStyle}
-        placeholder='Phone'
-      />
-      <GoldenButton
-        buttonText="Next"
-        style={styles.goldenButtonStyle}
-        buttonTextStyle={styles.goldenTextStyle}
-        onPress={() => {}}
-      />
-    </View>
+        colors={['#ECE49E', '#D7BC70', '#AB8B51']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.gradientBar}
+      >
+        <Text>Step 01/03</Text>
+      </LinearGradient>
+      <Text style={styles.mainText}>Contact Information</Text>
+      <Text style={styles.subText}>What Is Your Full Name And Preferred Contact Information</Text>
+      <View style={styles.subContainer}>
+        <CustomTextInput
+          SvgImageComponent={<Profile />}
+          placeholder="Name"
+          onChangeText={() => { }}
+          style={styles.inputBoxStyle}
+        />
+        <CustomTextInput onChangeText={() => { }} style={styles.inputBoxStyle} />
+        <CustomPhoneInput
+          onChangeText={() => { }}
+          style={styles.inputBoxStyle}
+          placeholder='Phone'
+        />
+        <GoldenButton
+          buttonText="Next"
+          style={styles.goldenButtonStyle}
+          buttonTextStyle={styles.goldenTextStyle}
+          onPress={() => { }}
+        />
+      </View>
     </View>
   )
 }
@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    top:22
+    top: 22
   },
   mainText: {
-    color:'#D7BC70',
+    color: '#D7BC70',
     fontSize: 25,
     fontWeight: '500',
     textAlign: 'center',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     textAlign: 'center',
     marginTop: 10,
-    fontFamily:'Roboto'
+    fontFamily: 'Roboto'
   },
   subContainer: {
     marginTop: 40,

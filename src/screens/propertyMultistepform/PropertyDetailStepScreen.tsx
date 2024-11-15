@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ScrollView,Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, Image } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import GoogleMap from 'assets/Icons/googleMap.svg';
@@ -176,33 +176,33 @@ const PropertyDetailStepScreen = () => {
                             <CustomTextInput
                                 placeholder="11/11/2024"
                                 onChangeText={() => { }}
-                                style={[styles.inputBoxStyle,{width: 161}]}
+                                style={[styles.inputBoxStyle, { width: 161 }]}
                             />
-                            <Image source = {require('../../assets/Icons/calendar.png')} style={styles.dateImage} />
+                            <Image source={require('../../assets/Icons/calendar.png')} style={styles.dateImage} />
                         </View>
                         <View style={styles.startEndDate}>
                             <CustomTextInput
                                 placeholder="11/11/2024"
                                 onChangeText={() => { }}
-                                style={[styles.inputBoxStyle,{width: 161,}]}
+                                style={[styles.inputBoxStyle, { width: 161, }]}
                             />
-                            <Image source = {require('../../assets/Icons/calendar.png')} style={styles.dateImage} />
+                            <Image source={require('../../assets/Icons/calendar.png')} style={styles.dateImage} />
                         </View>
                     </View>
-                    <View style = {[styles.checkView,{top:17}]}>
-                        <View style = {styles.checkbox}></View>
-                        <Text style = {{color:'white',marginLeft:15}}>Price Based On Demand</Text>
+                    <View style={[styles.checkView, { top: 17 }]}>
+                        <View style={styles.checkbox}></View>
+                        <Text style={{ color: 'white', marginLeft: 15 }}>Price Based On Demand</Text>
                     </View>
-                    <View style = {styles.checkView}>
-                        <View style = {styles.checkbox}></View>
-                        <Text style = {{color:'white',marginLeft:15}}>Seasonal Fluctuations?</Text>
+                    <View style={styles.checkView}>
+                        <View style={styles.checkbox}></View>
+                        <Text style={{ color: 'white', marginLeft: 15 }}>Seasonal Fluctuations?</Text>
                     </View>
-                    <GoldenButton 
-                        buttonText = "Next"
-                        style = {{marginTop:30}}
-                        buttonTextStyle = {{fontSize: 14,color:'black',fontWeight:'600'}}
-                        onPress = {() => {}}
-                        />
+                    <GoldenButton
+                        buttonText="Next"
+                        style={{ marginTop: 30 }}
+                        buttonTextStyle={{ fontSize: 14, color: 'black', fontWeight: '600' }}
+                        onPress={() => { }}
+                    />
                 </View>
             </View>
         </ScrollView>
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
         height: 20,
         backgroundColor: '#D7BC70',
         borderRadius: 50,
-        borderWidth:2,
+        borderWidth: 2,
         borderColor: '#2B2B2B',
     }
 });

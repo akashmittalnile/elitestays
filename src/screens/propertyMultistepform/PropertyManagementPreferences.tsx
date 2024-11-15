@@ -145,7 +145,8 @@ const PropertyManagementPreferences = () => {
                         end={{ x: 1, y: 0 }}
                         style={styles.gradientBackground}
                     >
-                        <Text style = {{color:'#D7BC70',fontSize:17,fontWeight:'500'
+                        <Text style={{
+                            color: '#D7BC70', fontSize: 17, fontWeight: '500'
                         }}>Submit</Text>
                     </LinearGradient>
                 </TouchableOpacity>
