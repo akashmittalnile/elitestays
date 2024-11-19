@@ -10,11 +10,19 @@ import StickyNote1 from 'assets/Icons/stickynote1.svg';
 import Logout from 'assets/Icons/logout.svg';
 import HomeScreen from 'assets/Icons/HomeScreen.svg';
 import Calendar from 'assets/Icons/calendar.svg';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useToast } from "react-native-toast-notifications";
+import { useDispatch } from 'react-redux';
+import { clearToken } from 'src/redux/reduxSlices/authSlice';
 
 const Sidebar: React.FC = () => {
   const navigation = useNavigation<NavigationProp<any>>();
   const context = useContext(SidebarContext);
   const translateXAnim = useRef(new Animated.Value(-290)).current;
+  const userToken = useSelector((state: any) => state.auth.authToken);
+  const toast = useToast();
+  const dispatch = useDispatch();
 
   if (!context) {
     throw new Error('Sidebar must be used within a SidebarProvider');
@@ -35,6 +43,31 @@ const Sidebar: React.FC = () => {
     toggleSidebar();
   };
 
+  const handleLogout = async() => {
+    try{
+      const response = await axios.post(`${process.env.AUTH_URL}/logout`, {}, {
+        headers: {
+          authorization: `Bearer ${userToken}`
+        }
+      });
+        toast.show(response.data.message, {
+          type: 'success',
+          placement: 'top',
+          duration: 2000,
+          animationType: 'zoom-in'
+        });
+        dispatch(clearToken());
+        navigation.navigate('GetStarted');
+    }
+    catch(error){
+      toast.show(error.response.data.message, {
+        type: 'danger',
+        placement: 'top',
+        duration: 2000,
+        animationType: 'zoom-in'
+      })
+    }
+  };
   return (
     <Animated.View style={[styles.sidebar, { transform: [{ translateX: translateXAnim }] }]}>
       {/* App Logo */}
@@ -58,9 +91,9 @@ const Sidebar: React.FC = () => {
 
       {/* Sidebar Options */}
       <View style={styles.infoView}>
-        <TouchableOpacity style={styles.row} onPress={() => handleNavigation('Profile')}>
+        <TouchableOpacity style={styles.row} onPress={() => handleNavigation('BottomTabs')}>
           <HomeScreen />
-          <Text style={styles.text}>Profile</Text>
+          <Text style={styles.text}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.row} onPress={() => handleNavigation('Appointments')}>
           <Calendar />
@@ -82,7 +115,7 @@ const Sidebar: React.FC = () => {
           <StickyNote1 />
           <Text style={styles.text}>Privacy Policy</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.row} onPress={() => handleNavigation('Logout')}>
+        <TouchableOpacity style={styles.row} onPress={handleLogout}>
           <Logout />
           <Text style={styles.text}>Logout</Text>
         </TouchableOpacity>

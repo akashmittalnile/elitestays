@@ -6,10 +6,22 @@ import Logo from 'assets/Icons/verify.svg';
 import GoldenButton from 'components/Buttons/GoldenButton';
 import { withDecay } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/AntDesign';
-const UserSetupCompleteScreen = () => {
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
+
+type RootStackParamList = {
+  bottomTabs: undefined;
+};
+
+const UserSetupCompleteScreen: React.FC = () => {
+  type NavigationProp = StackNavigationProp<RootStackParamList, 'bottomTabs'>;
+  const navigation = useNavigation<NavigationProp>();
+  
   return (
     <View style={styles.container}>
-      <Header heading="" />
+      <Header heading="" onPressBack={()=>navigation.goBack()}/>
       <ImageBackground source={{ uri: Image.resolveAssetSource(BgImage)?.uri }} style={styles.bgImage} resizeMode="contain" />
       <View style={styles.SubContainer}>
         <Logo style={styles.logo} />
@@ -28,7 +40,7 @@ const UserSetupCompleteScreen = () => {
           buttonText="Post Your First Property FREE!"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
-          onPress={() => { }}
+          onPress={() => {navigation.navigate('BottomTabs')}}
         />
       </View>
 

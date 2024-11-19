@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import bgImage from 'assets/Images/GetStarted.png';
 import Logo from 'assets/Icons/logo.svg';
 import {colors} from '../../utils/Constant';
@@ -15,6 +15,7 @@ import BorderLessButton from 'components/Buttons/BorderLessButton';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+
 type RootStackParamList = {
   SignIn: undefined;
   Signup: undefined;
@@ -24,6 +25,9 @@ type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>
 
 const GetStarted: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+
+  
+
   return (
     <View style={styles.container}>
       <ImageBackground

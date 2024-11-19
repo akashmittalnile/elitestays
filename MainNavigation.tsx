@@ -30,6 +30,7 @@ import AppointmentBooking from 'screens/sidebarlisting/Appointments/AppointmentB
 import SignIn from 'screens/Auth/SignIn';
 import Signup from 'screens/Auth/Signup';
 import GetStarted from 'screens/Auth/GetStarted';
+import EditProfileScreen from 'screens/BottomTabs/EditProfileScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 
 const Tab = createBottomTabNavigator();
@@ -87,7 +88,7 @@ const BottomTabs = () => {
         options={{ tabBarIcon: () => <ChatSupportLogo /> }}
       />
       <Tab.Screen
-        name="ProfileScreen"
+        name="Profile"
         component={ProfileScreen}
         options={{ tabBarIcon: () => <ProfileLogo /> }}
       />
@@ -101,7 +102,7 @@ function MainNavigation() {
     <SidebarProvider>
       <NavigationContainer>
         <GestureHandlerRootView>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName='BottomTabs'>
           <Stack.Screen
               name="BottomTabs"
               component={BottomTabs}
@@ -180,6 +181,11 @@ function MainNavigation() {
             <Stack.Screen
               name="UserSetupCompleteScreen"
               component={UserSetupCompleteScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="EditProfileScreen"
+              component={EditProfileScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

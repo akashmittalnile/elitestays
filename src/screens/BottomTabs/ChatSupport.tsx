@@ -6,6 +6,7 @@ import { BlurView } from '@react-native-community/blur';
 import Sidebar from 'components/Sidebar/Sidebar';
 import { SidebarContext } from 'components/context/SidebarContext';
 
+
 type SidebarContextProps = {
     isOpen: boolean;
     toggleSidebar: () => void;

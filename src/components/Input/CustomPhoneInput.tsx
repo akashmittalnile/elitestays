@@ -1,5 +1,5 @@
-import {View, Text, TextInput, StyleSheet, ViewStyle} from 'react-native';
-import React,{useState} from 'react';
+import { View, TextInput, StyleSheet, ViewStyle } from 'react-native';
+import React, { useState } from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -11,34 +11,39 @@ interface CustomPhoneInputProps {
   SvgImageComponent?: any;
   style?: ViewStyle;
   placeholder?: string;
-  onChangeText: (text:string) => void;
-  email?: boolean;
+  onChangeText: (text: string) => void;
   error?: boolean;
 }
 
 const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
-
   SvgImageComponent,
   style,
-  placeholder = 'Email Address',
+  placeholder = 'Phone Number',
   onChangeText,
   error = false,
 }) => {
-
-  const [country, setCountry] = useState<any>(null);
+  const [country, setCountry] = useState<any>({ callingCode: ['1'], cca2: 'US' });
   const [phone, setPhone] = useState<string>('');
 
-  const _onChangeText = (text:string) => {
-    setPhone(text);
-    onChangeText && onChangeText(text);
-  }
+  const _onChangeText = (text: string) => {
+    // Remove country code from input if it exists to avoid duplication
+    const countryCode = `+${country.callingCode[0]} `;
+    const cleanedText = text.startsWith(countryCode)
+      ? text.slice(countryCode.length)
+      : text;
+
+    setPhone(cleanedText); // Save only the number part
+    onChangeText && onChangeText(`${countryCode}${cleanedText}`);
+  };
+
+  const formattedPhone = `+${country.callingCode[0]} ${phone}`; // Add country code dynamically
 
 
   return (
     <View
       style={[
         styles.container,
-        {borderColor: error ? 'red' : '#2B2B2B'},
+        { borderColor: error ? 'red' : '#2B2B2B' },
         style,
       ]}>
       <CountryPicker
@@ -46,23 +51,21 @@ const CustomPhoneInput: React.FC<CustomPhoneInputProps> = ({
         withFlag={true}
         withCallingCode={true}
         withCallingCodeButton={true}
-        withFilter={true}
+        withCountryNameButton={false}
         withAlphaFilter={true}
+        withFilter={true}
         withEmoji={true}
-        withCountryNameButton={true}
-        withCurrencyButton={true}
-        withCurrency={true}
-        withFlagButton={true}
-        withModal={true}
-        
+        onSelect={(selectedCountry) => setCountry(selectedCountry)}
+        countryCode={country?.cca2 || 'US'}
       />
       <View style={styles.subContainer}>
         <TextInput
           style={styles.input}
           placeholder={placeholder}
           onChangeText={_onChangeText}
+          value={country?.callingCode ? `+${country.callingCode[0]} ${phone}` : phone}
           placeholderTextColor="rgba(255,255,255,0.5)"
-          
+          keyboardType="phone-pad"
         />
       </View>
     </View>
@@ -80,13 +83,16 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'transparent',
     borderRadius: responsiveWidth(2),
+    gap: 10,
   },
   countryPicker: {
     height: '100%',
-    width: '90%',
+    width: 90,
     borderWidth: responsiveWidth(0.5),
     borderColor: '#2B2B2B',
     borderRadius: responsiveWidth(2),
+    color: 'white',
+    backgroundColor: '#0E0E0E',
   },
   subContainer: {
     flexDirection: 'row',

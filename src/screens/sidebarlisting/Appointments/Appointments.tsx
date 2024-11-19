@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { VibrancyView } from '@react-native-community/blur';
@@ -10,6 +10,10 @@ import SmsLogo from 'assets/Icons/sms.svg';
 import CalenderTick from 'assets/Icons/calendar-tick.svg';
 import GoldenButton from 'components/Buttons/GoldenButton';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSelector, UseSelector } from 'react-redux';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import axios from 'axios';
 
 type RootStackParamList = {
   AppointmentBooking: undefined;
@@ -20,29 +24,40 @@ interface Appointment {
   id: number;
   name: string;
   email: string;
-  dateAndTime: string;
-  status: string;
+  start_date: string;
+  start_time: string;
+  description: string;
+  status_name: string;
 }
 
-const AppointmentsData: Appointment[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@gmail.com',
-    dateAndTime: '27 September 2024, 10:00 AM',
-    status: 'Confirmed',
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    email: 'jane@gmail.com',
-    dateAndTime: '27 September 2024, 11:00 AM',
-    status: 'Not Confirmed',
-  },
-];
+
 
 const Appointments: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const [AppointmentsData, setAppointmentsData] = useState<Appointment[]>([]);
+  const [filterDate, setFilterDate] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false);
+  const token = useSelector((state: any) => state.auth.authToken);
+  
+
+  useEffect(() => {
+    async function fetchAppointments() {
+      const response = await axios.get(`${process.env.AUTH_URL}/appointment/list`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        });
+      
+      setAppointmentsData(response.data.data);
+    }
+    fetchAppointments();
+  }, []);
+
+  const filterWithDate = () => {
+    const filteredData = AppointmentsData.filter((item) => item.start_date === moment(filterDate).format('MM-DD-YYYY'));
+    setAppointmentsData(filteredData);
+  }
 
   return (
     <View style={styles.container}>
@@ -63,14 +78,24 @@ const Appointments: React.FC = () => {
 
       <View style={styles.searchContainer}>
         <View style={styles.searchBox}>
-          <CalendarLogo />
+          <CalendarLogo onPress={() => setOpen(true)}  />
           <TextInput
             style={styles.searchInputStyle}
-            placeholder="27 September 2024"
+            placeholder={filterDate ? filterDate : '27 September 2024'}
             placeholderTextColor="white"
           />
+          <DatePicker
+            modal
+            open={open}
+            date={new Date()}
+            onConfirm={(date) => {
+              setFilterDate(date.toISOString().split('T')[0]);
+              setOpen(false);
+            }}
+            onCancel={() => setOpen(false)}
+          />
         </View>
-        <FrameLogo style={styles.filterIconStyle} />
+        <FrameLogo style={styles.filterIconStyle} onPress={filterWithDate} />
       </View>
 
       <FlatList
@@ -82,19 +107,19 @@ const Appointments: React.FC = () => {
               <Text style={styles.nameText}>{item.name}</Text>
               <View style={styles.statusView}>
                 <Text style={styles.statusLabel}>Status:</Text>
-                <Text style={styles.statusText}>{item.status}</Text>
+                <Text style={styles.statusText}>{item.status_name}</Text>
               </View>
             </View>
             <View style={styles.smsView}>
               <SmsLogo />
               <Text style={styles.emailText}>{item.email}</Text>
             </View>
-            <Text style={styles.inquiryText}>Hello, I want to know more about...</Text>
+            <Text style={styles.inquiryText}>{item.description}</Text>
             <View style={styles.dateView}>
               <CalenderTick />
               <View>
                 <Text style={styles.dateLabel}>Date & Time:</Text>
-                <Text style={styles.dateText}>{item.dateAndTime}</Text>
+                <Text style={styles.dateText}>{item.start_date}, {item.start_time}</Text>
               </View>
             </View>
           </View>
@@ -105,7 +130,7 @@ const Appointments: React.FC = () => {
         buttonText="Book An Appointment"
         onPress={() => navigation.navigate('AppointmentBooking')}
         style={styles.bookButton}
-        buttonTextStyle={{ fontSize: 14, fontWeight: '700',color: 'black' }}
+        buttonTextStyle={{ fontSize: 14, fontWeight: '700', color: 'black' }}
       />
     </View>
   );
@@ -139,13 +164,13 @@ const styles = StyleSheet.create({
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center',
-   gap: 10
+    gap: 10
   },
   filterIconStyle: {
     width: 24,
     height: 24,
-    right:-20,
-    top:8
+    right: -20,
+    top: 8
   },
   appointmentView: {
     width: '90%',
@@ -186,11 +211,11 @@ const styles = StyleSheet.create({
   smsView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 3,
     backgroundColor: '#D7BC70',
-    width: 150,
     padding: 5,
     borderRadius: 4,
+    alignSelf: 'flex-start',
   },
   emailText: {
     fontSize: 14,
@@ -207,6 +232,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 14,
+    gap: 10
   },
   dateLabel: {
     fontSize: 14,
@@ -222,7 +248,11 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     marginBottom: 35,
-    height:60
+    height: 60
+  },
+  searchInputStyle: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 
