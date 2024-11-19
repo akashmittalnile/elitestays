@@ -113,7 +113,7 @@ const HomeScreen = () => {
 
     return (
         <ScrollView style={styles.scrollContainer}>
-            <Sidebar />
+            {isOpen && <Sidebar />}
             <View style={styles.container}>
                 <LinearGradient
                     colors={['#000000', '#232323']}

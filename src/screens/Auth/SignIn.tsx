@@ -1,8 +1,8 @@
-import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
-import React,{useState,useEffect} from 'react';
+import { View, Text, StyleSheet, ImageBackground, Image,TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import BgImage from 'assets/Images/Login.png';
 import Logo from 'assets/Icons/logo.svg';
-import {colors} from '../../utils/Constant';
+import { colors } from '../../utils/Constant';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -18,78 +18,115 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 import { useToast } from "react-native-toast-notifications";
 import { useDispatch } from 'react-redux';
-// import {login} from 'src/reduxOld/slices/authSlice'
+import { setToken } from 'src/redux/reduxSlices/authSlice';
 import { useSelector } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
+import { clearToken } from 'src/redux/reduxSlices/authSlice';
+
+
+
+
 type RootStackParamList = {
   SignIn: undefined;
   Signup: undefined;
   UserSetupCompleteScreen: undefined;
-}; 
+};
 
 
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup',>;
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn', 'Signup',>;
 
 const SignIn = (): JSX.Element => {
   const toast = useToast();
   const dispatch = useDispatch();
-  const user = useSelector((state:any) => state.auth.user);
-  const token = useSelector((state:any) => state.auth.token);
-  console.log(user,token);
 
 
-  const [email,setEmail] = useState<string>('');
-  const [password,setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [device_id, setDevice_id] = useState<string>('');
+  const [showLogout, setShowLogout] = useState<boolean>(false);
+  const [userToken, setUserToken] = useState<string>('');
+
+  useEffect(() => {
+    const device_id = DeviceInfo.getDeviceId();
+    setDevice_id(device_id);
+  }, []);
+
+
+
+  const handleLogout = async () => {
+    try{
+      const response = await axios.post(`${process.env.AUTH_URL}/logout`, {}, {
+        headers: {
+          authorization: `Bearer ${userToken}`
+        }
+      });
+        toast.show(response.data.message, {
+          type: 'success',
+          placement: 'top',
+          duration: 2000,
+          animationType: 'zoom-in'
+        });
+        setShowLogout(false);
+        dispatch(clearToken());
+    }
+    catch(error){
+      toast.show(error.response.data.message, {
+        type: 'danger',
+        placement: 'top',
+        duration: 2000,
+        animationType: 'zoom-in'
+      })
+    }
+  }
 
   const handleSignin = async () => {
-    console.log(email,password);
     try {
-        const response = await axios.post(`${process.env.AUTH_URL}/login`, {
-            email: email,
-            password: password,
-            device_id: 'device_i',
-        });
-        if(response.data.message === 'Logged in successfully'){
+      const response = await axios.post(`${process.env.AUTH_URL}/login`, {
+        email: email,
+        password: password,
+        device_id: device_id
+      });
+      if (response.data.message === 'You seems to be logged in another device. Please Click on below below to logout from all devices.') {
         toast.show(response.data.message, {
-          type: "success",
+          type: 'error',
+          placement: 'top',
           duration: 2000,
+          animationType: 'zoom-in'
         });
-        const user = response.data.user;
+        
+        setUserToken(response.data.token)
+        setShowLogout(true);
+      } else {
         const token = response.data.authorization.token;
-        // dispatch(login({user,token}));
-        navigation.navigate('UserSetupCompleteScreen');
-      }else{
-        toast.show(response.data.message, {
-          type: "danger",
-          placement: "top",
-          animationType: "zoom-in",
+        const user = response.data.user;
+        dispatch(setToken({ authToken: token, user }));
+        toast.show('Login Success', {
+          type: 'success',
+          placement: 'top',
           duration: 2000,
+          animationType: 'zoom-in'
         });
         navigation.navigate('UserSetupCompleteScreen');
       }
-    } catch (err) {
-      
-        if (err.response) {
-          toast.show(err.response.data.message, {
-            type: "danger",
-            placement: "top",
-            animationType: "zoom-in",
-            duration: 2000,
-          });
-            console.log('Error Status:', err.response.status);
-            console.log('Error Data:', err.response.data);
-        } else {
-            console.log('Error:', err.message);
-        }
     }
+    catch(error){
+      
+      toast.show(error.response.data.message, {
+        type: 'danger',
+        placement: 'top',
+        duration: 2000,
+        animationType: 'zoom-in'
+      })
+    } 
   }
 
   const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
-      <Header heading="Sign In" onPressBack={()=>{navigation.goBack()}} />
+      <Header heading="Sign In" onPressBack={() => { navigation.goBack() }} />
       <ImageBackground
-        source={{uri: Image.resolveAssetSource(BgImage)?.uri}}
+        source={{ uri: Image.resolveAssetSource(BgImage)?.uri }}
         style={styles.bgImage}
         resizeMode="contain"
       />
@@ -100,13 +137,13 @@ const SignIn = (): JSX.Element => {
           styles.text
         }>{`Please enter your sign-in${'\n'}information`}</Text>
       <View style={styles.subContainer}>
-        <CustomTextInput onChangeText={(text) => {setEmail(text)}} style={styles.inputBoxStyle} />
+        <CustomTextInput onChangeText={(text) => { setEmail(text) }} style={styles.inputBoxStyle} />
         <CustomPasswordInput
-          onChangeText={(text) => {setPassword(text)}}
+          onChangeText={(text) => { setPassword(text) }}
           style={styles.inputBoxStyle}
         />
         <BorderLessButton
-          onPress={() => {}}
+          onPress={() => { }}
           buttonText="Forgot Password?"
           buttonTextStyle={styles.forgotStyle}
         />
@@ -114,25 +151,25 @@ const SignIn = (): JSX.Element => {
           buttonText="Login"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
-          onPress={() => {handleSignin()}}
+          onPress={() => { handleSignin() }}
         />
         <View style={styles.policy}>
           <Text
             style={[
               styles.policyText,
               styles.policyButton,
-              {marginHorizontal: responsiveWidth(1), color: 'white'},
+              { marginHorizontal: responsiveWidth(1), color: 'white' },
             ]}>
             Don’t Have An Account?
           </Text>
-          <BorderLessButton
-            onPress={() => {navigation.goBack()}}
-            style={styles.policyButton}
-            buttonText="Signup Now"
-            buttonTextStyle={styles.policyText}
-          />
+          
         </View>
       </View>
+      {showLogout && (
+        <TouchableOpacity onPress={handleLogout} style = {{position:'absolute',top:300,backgroundColor:'#D7BC70D1',padding:15,left:90,borderRadius:15}}>
+          <Text style={{ color: 'white'}}>Logout from all devices</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

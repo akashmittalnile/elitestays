@@ -36,6 +36,13 @@
 	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>We need your location to show relevant data.</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>We need your location to provide background features.</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>We need your location for background and foreground use.</string>
+
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
