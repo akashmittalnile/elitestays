@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextStyle,
 } from 'react-native';
+
 import React from 'react';
 import {
   responsiveFontSize,
@@ -37,6 +38,7 @@ const BlackThemeButton: React.FC<BlackThemeButtonProps> = ({
         activeOpacity={0.5}>
         <Text style={[styles.buttonText, buttonTextStyle]}>{buttonText}</Text>
       </TouchableOpacity>
+      
     </View>
   );
 };
@@ -62,5 +64,6 @@ const styles = StyleSheet.create({
     color: colors.gold,
     fontSize: responsiveFontSize(2),
     fontWeight: '500',
+     
   },
 });

@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import bgImage from 'assets/Images/GetStarted.png';
 import Logo from 'assets/Icons/logo.svg';
 import {colors} from '../../utils/Constant';
@@ -12,8 +12,22 @@ import {SvgXml} from 'react-native-svg';
 import GoldenButton from 'components/Buttons/GoldenButton';
 import BlackThemeButton from 'components/Buttons/BlackThemeButton';
 import BorderLessButton from 'components/Buttons/BorderLessButton';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const GetStarted = () => {
+
+type RootStackParamList = {
+  SignIn: undefined;
+  Signup: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
+
+const GetStarted: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
+
+  
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -23,22 +37,33 @@ const GetStarted = () => {
       />
       <Logo style={styles.logo} />
       <Text style={styles.mainText}>Welcome to Elite Stays</Text>
+      {/* <Text
+        style={
+          styles.text
+        }>{`Vacation Rental Management${'\n'}Simplified`}</Text> */}
       <Text
         style={
           styles.text
-        }>{`Vacation Rental Management${'\n'}Simplified`}</Text>
+        }>{`Discover how much you can save on vacation rental management fees.`}</Text>
       <GoldenButton
+        buttonText="Get Started"
+        style={styles.goldenButtonStyle}
+        buttonTextStyle={styles.goldenTextStyle}
+        // onPress={() => {navigation.navigate('SignIn')}}
+        onPress={() => {navigation.navigate('UserTypeSelection')}}
+      />
+      {/* <GoldenButton
         buttonText="Login"
         style={styles.goldenButtonStyle}
         buttonTextStyle={styles.goldenTextStyle}
-        onPress={() => {}}
+        onPress={() => {navigation.navigate('SignIn')}}
       />
       <BlackThemeButton
         buttonText="Signup"
         style={styles.goldenButtonStyle}
         buttonTextStyle={{...styles.goldenTextStyle, color: colors.gold}}
-        onPress={() => {}}
-      />
+        onPress={() => {navigation.navigate('Signup')}}
+      /> */}
       <Text
         style={{
           ...styles.text,
