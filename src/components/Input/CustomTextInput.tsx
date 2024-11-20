@@ -1,4 +1,4 @@
-import {View, Text, TextInput, StyleSheet, ViewStyle} from 'react-native';
+import { View, Text, TextInput, StyleSheet, ViewStyle } from 'react-native';
 import React from 'react';
 import Email from '../../assets/Icons/email.svg';
 import {
@@ -11,10 +11,11 @@ interface CustomTextInputProps {
   SvgImageComponent?: any;
   style?: ViewStyle;
   placeholder?: string;
-  onChangeText: (text:String) => void;
+  onChangeText: (text: String) => void;
   email?: boolean;
   error?: boolean;
   placeholderTextColor?: string;
+  value?: string | null;
 
 }
 
@@ -25,28 +26,39 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   onChangeText,
   error = false,
   placeholderTextColor,
-  
-  
+  value = null
+
+
 }) => {
-  const _onChangeText = (text:string) => {
+  const _onChangeText = (text: string) => {
     onChangeText && onChangeText(text);
   };
   return (
     <View
       style={[
         styles.container,
-        {borderColor: error ? 'red' : '#2B2B2B'},
+        { borderColor: error ? 'red' : '#2B2B2B' },
         style,
       ]}>
       {SvgImageComponent && SvgImageComponent}
       {/* {!SvgImageComponent && <Email />} */}
-      <TextInput
-        style={styles.input}
-        placeholder={placeholder}
-        onChangeText={_onChangeText}
-        placeholderTextColor={placeholderTextColor}
-        
-      />
+
+      {value ?
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          onChangeText={_onChangeText}
+          placeholderTextColor={placeholderTextColor}
+          value={value}
+        />
+        : <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          onChangeText={_onChangeText}
+          placeholderTextColor={placeholderTextColor}
+
+        />}
+
     </View>
   );
 };

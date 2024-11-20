@@ -32,6 +32,8 @@ import Signup from 'screens/Auth/Signup';
 import GetStarted from 'screens/Auth/GetStarted';
 import EditProfileScreen from 'screens/BottomTabs/EditProfileScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
+import UserTypeSelection from 'screens/GetStartedQREScreens/UserTypeSelection';
+import CurrentManagement from 'screens/GetStartedQREScreens/YesScreens/CurrentManagement';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -102,17 +104,18 @@ function MainNavigation() {
     <SidebarProvider>
       <NavigationContainer>
         <GestureHandlerRootView>
-          <Stack.Navigator initialRouteName='BottomTabs'>
+          <Stack.Navigator initialRouteName='GetStarted'>
+          <Stack.Screen
+              name="GetStarted"
+              component={GetStarted}
+              options={{ headerShown: false }}
+            />
           <Stack.Screen
               name="BottomTabs"
               component={BottomTabs}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="GetStarted"
-              component={GetStarted}
-              options={{ headerShown: false }}
-            />
+            
             <Stack.Screen
               name="SignIn"
               component={SignIn}
@@ -186,6 +189,16 @@ function MainNavigation() {
             <Stack.Screen
               name="EditProfileScreen"
               component={EditProfileScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="UserTypeSelection"
+              component={UserTypeSelection}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CurrentManagement"
+              component={CurrentManagement}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

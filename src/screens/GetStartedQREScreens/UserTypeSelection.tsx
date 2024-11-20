@@ -14,6 +14,7 @@ import BlackThemeButton from 'components/Buttons/BlackThemeButton';
 import BorderLessButton from 'components/Buttons/BorderLessButton';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Header from 'components/Header/Header';
 
 
 type RootStackParamList = {
@@ -23,83 +24,48 @@ type RootStackParamList = {
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn','Signup'>;
 
-const GetStarted: React.FC = () => {
+const UserTypeSelection: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   
 
   return (
     <View style={styles.container}>
+      <Header heading="User Type Selection" />
       <ImageBackground
         source={{uri: Image.resolveAssetSource(bgImage)?.uri}}
         style={styles.bgImage}
         resizeMode="contain"
       />
       <Logo style={styles.logo} />
-      <Text style={styles.mainText}>Welcome to Elite Stays</Text>
+      {/* <Text style={styles.mainText}>Welcome to Elite Stays</Text> */}
       {/* <Text
         style={
           styles.text
         }>{`Vacation Rental Management${'\n'}Simplified`}</Text> */}
       <Text
         style={
-          styles.text
-        }>{`Discover how much you can save on vacation rental management fees.`}</Text>
+          [styles.text,{marginTop:responsiveHeight(20)}]
+        }>{`Are you currently using a vacation rental management service?`}</Text>
+   
       <GoldenButton
-        buttonText="Get Started"
+        buttonText="Yes"
         style={styles.goldenButtonStyle}
         buttonTextStyle={styles.goldenTextStyle}
-        // onPress={() => {navigation.navigate('SignIn')}}
-        onPress={() => {navigation.navigate('UserTypeSelection')}}
-      />
-      {/* <GoldenButton
-        buttonText="Login"
-        style={styles.goldenButtonStyle}
-        buttonTextStyle={styles.goldenTextStyle}
-        onPress={() => {navigation.navigate('SignIn')}}
+        onPress={() => {navigation.navigate('CurrentManagement')}}
       />
       <BlackThemeButton
-        buttonText="Signup"
+        buttonText="NO"
         style={styles.goldenButtonStyle}
         buttonTextStyle={{...styles.goldenTextStyle, color: colors.gold}}
-        onPress={() => {navigation.navigate('Signup')}}
-      /> */}
-      <Text
-        style={{
-          ...styles.text,
-          marginTop: responsiveHeight(1.8),
-          fontSize: responsiveFontSize(1.8),
-          letterSpacing: responsiveWidth(0.25),
-        }}>
-        Signing Up Is Easy. Start Today!
-      </Text>
-      <View style={styles.policy}>
-        <BorderLessButton
-          onPress={() => {}}
-          buttonText="Terms of Use"
-          style={styles.policyButton}
-          buttonTextStyle={styles.policyText}
-        />
-        <Text
-          style={[
-            styles.policyText,
-            styles.policyButton,
-            {marginHorizontal: responsiveWidth(1), color: 'white'},
-          ]}>
-          And
-        </Text>
-        <BorderLessButton
-          onPress={() => {}}
-          style={styles.policyButton}
-          buttonText="Privacy Policy"
-          buttonTextStyle={styles.policyText}
-        />
-      </View>
+        onPress={() => {}}
+      />
+   
     </View>
   );
 };
 
-export default GetStarted;
+export default UserTypeSelection;
 
 const styles = StyleSheet.create({
   container: {
