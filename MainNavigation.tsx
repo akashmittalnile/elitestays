@@ -79,11 +79,11 @@ const BottomTabs = () => {
         component={HomeScreen}
         options={{ tabBarIcon: () => <HomeLogo /> }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="MyListing"
         component={MyListing}
         options={{ tabBarIcon: () => <MyListingLogo /> }}
-      />
+      /> */}
       <Tab.Screen
         name="ChatSupport"
         component={ChatSupport}
@@ -201,6 +201,12 @@ function MainNavigation() {
               component={CurrentManagement}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="MyListing"
+              component={MyListing}
+              options={{ headerShown: false }}
+            />
+            
           </Stack.Navigator>
         </GestureHandlerRootView>
       </NavigationContainer>

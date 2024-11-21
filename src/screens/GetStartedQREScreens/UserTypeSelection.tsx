@@ -58,7 +58,7 @@ const UserTypeSelection: React.FC = () => {
         buttonText="NO"
         style={styles.goldenButtonStyle}
         buttonTextStyle={{...styles.goldenTextStyle, color: colors.gold}}
-        onPress={() => {}}
+        onPress={() => {navigation.navigate('ContactInfoScreen')}}
       />
    
     </View>
