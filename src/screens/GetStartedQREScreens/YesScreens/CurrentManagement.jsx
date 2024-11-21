@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, ImageBackground, Image,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import BgImage from 'assets/Images/Login.png';
 import Logo from 'assets/Icons/logo.svg';
-import { colors } from '../../../utils/Constant';
+import { AStorage, colors } from '../../../utils/Constant';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -23,36 +23,28 @@ import { useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { clearToken } from 'src/redux/reduxSlices/authSlice';
 import { styles } from './SingleInputStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-
-
-type RootStackParamList = {
-  SignIn: undefined;
-  Signup: undefined;
-  UserSetupCompleteScreen: undefined;
-};
-
-
-
-type NavigationProp = StackNavigationProp<RootStackParamList, 'SignIn', 'Signup',>;
-
-const CurrentManagement = (): JSX.Element => {
+const CurrentManagement = () => {
   const toast = useToast();
   const dispatch = useDispatch();
 
 
-  const [percent, setpercent] = useState<string>('');
+  const [percentage, setpercentage] = useState('');
 
+  function next() {
+    navigation.navigate('MonthlyRevenue', {
+      payload: {
+        percentage
+      }
+    })
+  }
 
-
-
-
-
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Header heading="Current Management Fee" onPressBack={() => { navigation.goBack() }} />
+      <Header heading="Current Management" onPressBack={() => { navigation.goBack() }} />
       <ImageBackground
         source={{ uri: Image.resolveAssetSource(BgImage)?.uri }}
         style={styles.bgImage}
@@ -65,18 +57,18 @@ const CurrentManagement = (): JSX.Element => {
           styles.text
         }>{`What percentage commission do you currently pay your management company?`}</Text>
       <View style={styles.subContainer}>
-        <CustomTextInput onChangeText={(text) => { setpercent(text) }} style={styles.inputBoxStyle} value={percent} placeholder={'Enter Percentage'}/>
-       
-      
+        <CustomTextInput onChangeText={(text) => { setpercentage(text) }} style={styles.inputBoxStyle} value={percentage} placeholder={'Enter Percentage'} />
+
+
         <GoldenButton
           buttonText="Next"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
-          onPress={() => { }}
+          onPress={next}
         />
-       
+
       </View>
-    
+
     </View>
   );
 };

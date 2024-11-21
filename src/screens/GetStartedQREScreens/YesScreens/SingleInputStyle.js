@@ -71,4 +71,14 @@ export const styles = StyleSheet.create({
         fontSize: responsiveFontSize(1.5),
         fontWeight: '500',
     },
+    fullWidthModel: {
+        margin: 0,
+        justifyContent: 'flex-end',
+    },
+    bottomModel: {
+        backgroundColor: '#181717',
+        padding: 20,
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+    }
 });

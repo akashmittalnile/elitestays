@@ -34,6 +34,8 @@ import EditProfileScreen from 'screens/BottomTabs/EditProfileScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 import UserTypeSelection from 'screens/GetStartedQREScreens/UserTypeSelection';
 import CurrentManagement from 'screens/GetStartedQREScreens/YesScreens/CurrentManagement';
+import MonthlyRevenue from 'screens/GetStartedQREScreens/YesScreens/MonthlyRevenue';
+import CurrentManagementFeeCalculation from 'screens/GetStartedQREScreens/YesScreens/CurrentManagementFeeCalculation';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -199,6 +201,16 @@ function MainNavigation() {
             <Stack.Screen
               name="CurrentManagement"
               component={CurrentManagement}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MonthlyRevenue"
+              component={MonthlyRevenue}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CurrentManagementFeeCalculation"
+              component={CurrentManagementFeeCalculation}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

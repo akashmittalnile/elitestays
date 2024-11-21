@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ImageBackground, Image,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import BgImage from 'assets/Images/Login.png';
 import Logo from 'assets/Icons/logo.svg';
@@ -22,6 +22,9 @@ import { setToken } from 'src/redux/reduxSlices/authSlice';
 import { useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { clearToken } from 'src/redux/reduxSlices/authSlice';
+import useAPI from 'src/hooks/useAPI';
+import Loader from 'components/Loader';
+import { APIEndPoints } from 'src/WebAPI/Service';
 
 
 
@@ -41,8 +44,8 @@ const SignIn = (): JSX.Element => {
   const dispatch = useDispatch();
 
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('M@gmail.com');
+  const [password, setPassword] = useState<string>('123456789');
   const [device_id, setDevice_id] = useState<string>('');
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const [userToken, setUserToken] = useState<string>('');
@@ -52,25 +55,27 @@ const SignIn = (): JSX.Element => {
     setDevice_id(device_id);
   }, []);
 
+  const { postAPI, loading } = useAPI()
+
 
 
   const handleLogout = async () => {
-    try{
+    try {
       const response = await axios.post(`${process.env.AUTH_URL}/logout`, {}, {
         headers: {
           authorization: `Bearer ${userToken}`
         }
       });
-        toast.show(response.data.message, {
-          type: 'success',
-          placement: 'top',
-          duration: 2000,
-          animationType: 'zoom-in'
-        });
-        setShowLogout(false);
-        dispatch(clearToken());
+      toast.show(response.data.message, {
+        type: 'success',
+        placement: 'top',
+        duration: 2000,
+        animationType: 'zoom-in'
+      });
+      setShowLogout(false);
+      dispatch(clearToken());
     }
-    catch(error){
+    catch (error) {
       toast.show(error.response.data.message, {
         type: 'danger',
         placement: 'top',
@@ -80,7 +85,48 @@ const SignIn = (): JSX.Element => {
     }
   }
 
+  async function handleSignInNew() {
+    const bodyJSON = {
+      email: email,
+      password: password,
+      device_id: device_id
+    }
+    const response = await postAPI({ endPoint: APIEndPoints.login, bodyJSON: bodyJSON })
+    console.log("handleSignInNew", response);
+
+    if (response?.res) {
+
+      const token = response?.res?.authorization?.token;
+      console.log({token});
+      
+      const user = response.res.user;
+      dispatch(setToken({ authToken: token, user }));
+      toast.show('Login Success', {
+        type: 'success',
+        placement: 'top',
+        duration: 2000,
+        animationType: 'zoom-in'
+      });
+      navigation.navigate('UserSetupCompleteScreen');
+
+    }
+    else {
+      // toast.show(response?.err.data.message, {
+      //   type: 'error',
+      //   placement: 'top',
+      //   duration: 2000,
+      //   animationType: 'zoom-in'
+      // });
+
+      setUserToken(response?.err.token)
+      setShowLogout(true);
+    }
+  }
+
   const handleSignin = async () => {
+    // handleSignInNew().catch((err) => console.log({ err }))
+    // return
+
     try {
       const response = await axios.post(`${process.env.AUTH_URL}/login`, {
         email: email,
@@ -94,7 +140,7 @@ const SignIn = (): JSX.Element => {
           duration: 2000,
           animationType: 'zoom-in'
         });
-        
+
         setUserToken(response.data.token)
         setShowLogout(true);
       } else {
@@ -110,15 +156,15 @@ const SignIn = (): JSX.Element => {
         navigation.navigate('UserSetupCompleteScreen');
       }
     }
-    catch(error){
-      
+    catch (error) {
+
       toast.show(error.response.data.message, {
         type: 'danger',
         placement: 'top',
         duration: 2000,
         animationType: 'zoom-in'
       })
-    } 
+    }
   }
 
   const navigation = useNavigation<NavigationProp>();
@@ -162,14 +208,16 @@ const SignIn = (): JSX.Element => {
             ]}>
             Don’t Have An Account?
           </Text>
-          
+
         </View>
       </View>
       {showLogout && (
-        <TouchableOpacity onPress={handleLogout} style = {{position:'absolute',top:300,backgroundColor:'#D7BC70D1',padding:15,left:90,borderRadius:15}}>
-          <Text style={{ color: 'white'}}>Logout from all devices</Text>
+        <TouchableOpacity onPress={handleLogout} style={{ position: 'absolute', top: 300, backgroundColor: '#D7BC70D1', padding: 15, left: 90, borderRadius: 15 }}>
+          <Text style={{ color: 'white' }}>Logout from all devices</Text>
         </TouchableOpacity>
       )}
+
+      {loading && <Loader />}
     </View>
   );
 };
