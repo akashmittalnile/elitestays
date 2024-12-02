@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef, memo } from 'react';
-import { useToast } from "react-native-toast-notifications";
+// import { useToast } from "react-native-toast-notifications";
 // import { requestGetApi, requestGetWithoutBody, requestPostApi } from '../WebApi/Service';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestGetApi, requestGetWithoutBody, requestPostApi } from 'src/WebAPI/Service';
-
+import Toast from 'react-native-toast-message';
 
 
 
@@ -29,7 +29,7 @@ function appendObjectToFormData(formData, dataObject) {
 
 const useAPI = () => {
 
-    const Toast = useToast()
+    // const Toast = useToast()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [reloadTrigger, setReloadTrigger] = useState(false);
@@ -132,7 +132,7 @@ const useAPI = () => {
 
                     // console.log(responseJson.message);
 
-                    (toastEnable && responseJson?.message) && Toast.show(responseJson?.message);
+                    (toastEnable && responseJson?.message) && Toast.show({text1:responseJson?.message});
 
                     return { res: responseJson, err: null }
 
@@ -140,12 +140,7 @@ const useAPI = () => {
                 } else {
                     catchErrorCallBack(responseJson)
 
-                    toastEnable && Toast.show(responseJson.message, {
-                        type: 'error',
-                        placement: 'top',
-                        duration: 2000,
-                        animationType: 'zoom-in'
-                    });
+                    toastEnable && Toast.show({text1:responseJson?.message});
                     return { res: null, err: responseJson }
                 }
             } else {

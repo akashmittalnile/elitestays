@@ -69,9 +69,9 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
 
-    const context = useContext(SidebarContext);
+    // const context = useContext(SidebarContext);
 
-    const { isOpen, toggleSidebar } = context;
+    // const { isOpen, toggleSidebar } = context;
 
     const renderTestimonial = ({ item }) => (
         <View style={styles.testimonials}>
@@ -113,7 +113,7 @@ const HomeScreen = () => {
 
     return (
         <ScrollView style={styles.scrollContainer}>
-            {isOpen && <Sidebar />}
+            {/* {isOpen && <Sidebar />} */}
             <View style={styles.container}>
                 <LinearGradient
                     colors={['#000000', '#232323']}
@@ -134,7 +134,7 @@ const HomeScreen = () => {
                             showNotification={true}
                             showGridIcon={true}
                             headingStyle={{ color: 'white', fontSize: 20 }}
-                            toggleSidebar={toggleSidebar}
+                            // toggleSidebar={toggleSidebar}
                         />
                     </BlurView>
                 </LinearGradient>

@@ -1131,29 +1131,29 @@ PODS:
     - React-Core
   - RNDeviceInfo (14.0.0):
     - React-Core
-  - RNGestureHandler (2.20.1):
+  - RNGestureHandler (2.21.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNReanimated (3.16.1):
-    - glog
-    - RCT-Folly (= 2022.05.16.00)
-    - React-Core
-    - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.16.1)
-    - RNReanimated/worklets (= 3.16.1)
-  - RNReanimated/reanimated (3.16.1):
+  - RNReanimated (3.16.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 3.16.1)
-  - RNReanimated/reanimated/apple (3.16.1):
+    - RNReanimated/reanimated (= 3.16.2)
+    - RNReanimated/worklets (= 3.16.2)
+  - RNReanimated/reanimated (3.16.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNReanimated/worklets (3.16.1):
+    - RNReanimated/reanimated/apple (= 3.16.2)
+  - RNReanimated/reanimated/apple (3.16.2):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - RNReanimated/worklets (3.16.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1469,13 +1469,13 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNCMaskedView: c8e1f01fc0f41ddf4e16246aef1143b3311588ca
   RNDeviceInfo: 6192a9c9167e256803e554038b22b3b2b40163dc
-  RNGestureHandler: 7ff7793b53454ed4a2faf52fb3fcd7804d0b494c
-  RNReanimated: 51ba6c9ecdde77caf364c7e5ae59a089c7dd98b3
+  RNGestureHandler: 57144b74a3402b21180df3ec7b3a0266ddf89548
+  RNReanimated: d8bc925b39614fae7b3e4b3f04a4042adbcd4d49
   RNScreens: 29418ceffb585b8f0ebd363de304288c3dce8323
   RNSVG: 8b1a777d54096b8c2a0fd38fc9d5a454332bbb4d
   RNVectorIcons: 04d49881dab53fb3397b1129085271d9d21885c1
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  Yoga: e5b887426cee15d2a326bdd34afc0282fc0486ad
+  Yoga: 2a16e58450c48e110211dae1159fb114bbcdcfc0
 
 PODFILE CHECKSUM: c8e755c29f376a0ba62bcba1af580defc9912d3d
 

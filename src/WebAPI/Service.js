@@ -5,7 +5,8 @@ export const imgUrl = 'https://www.niletechinnovations.com/upload/'
 //API END POINT LISTS  
 export const APIEndPoints = {
   login: 'login',
-  calculator: 'calculator'
+  calculator: 'calculator',
+  property_listing:'add-property'
 } 
 
 export const cartItemType = {

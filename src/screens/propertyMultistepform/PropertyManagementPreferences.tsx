@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import GoogleMap from 'assets/Icons/googleMap.svg';
@@ -24,14 +24,14 @@ const imageData = [
     },
 ]
 
-const PropertyManagementPreferences = () => {
+const PropertyManagementPreferences = ({navigation}) => {
     return (
-        <ScrollView
+       <SafeAreaView style={{backgroundColor:'black'}}>
+                <Header heading="Property Listing" />
+                <ScrollView
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContainer}
         >
-            <View style={styles.container}>
-                <Header heading="Property Listing" />
                 <LinearGradient
                     colors={['#ECE49E', '#D7BC70', '#AB8B51']}
                     start={{ x: 0, y: 0 }}
@@ -121,7 +121,8 @@ const PropertyManagementPreferences = () => {
                     onChangeText={text => console.log(text)}
                     placeholderTextColor={'#8D8D8D'}
                 />
-                <Text style={{ color: '#D7BC70', fontSize: 20, fontWeight: '400', top: 80 }}>Other Considerations</Text>
+                <TouchableOpacity onPress={()=>{navigation.navigate('BottomTab')}}>
+                <Text style={{ color: '#D7BC70', fontSize: 20, fontWeight: '400', top: 80 }}>Other Considerations</Text></TouchableOpacity>
                 <TextInput
                     style={[styles.textarea, { marginTop: 40, height: 150, top: 70 }]}
                     multiline
@@ -150,8 +151,10 @@ const PropertyManagementPreferences = () => {
                         }}>Submit</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-            </View>
-        </ScrollView>
+                </ScrollView>
+           
+            </SafeAreaView>
+       
     )
 }
 const styles = StyleSheet.create({
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContainer: {
         flexGrow: 1,
-        minHeight: '100%',
+       
     },
     container: {
         paddingBottom: 20,
