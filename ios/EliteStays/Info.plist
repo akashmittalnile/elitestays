@@ -42,7 +42,12 @@
   <string>We need your location to provide background features.</string>
   <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
   <string>We need your location for background and foreground use.</string>
-
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need your permission to access the photo library</string>
+<key>NSCameraUsageDescription</key>
+<string>We need your permission to access the camera</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need your permission to save photos</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

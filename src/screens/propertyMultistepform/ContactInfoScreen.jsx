@@ -14,12 +14,14 @@ import {APIEndPoints} from '../../WebAPI/Service'
 const ContactInfoScreen = () => {
   const navigation = useNavigation();
   const[phone,setPhone]=useState('');
- 
+ const[response,setResponse]=useState({})
   const [contactInfo, setContactInfo] = useState({
+    step:'1',
     fullname: '',
     email: '',
     phone:'',
-    address:'hhhhh'
+    address:'hhhhh',
+    password:''
     
   });
 
@@ -71,9 +73,6 @@ const ContactInfoScreen = () => {
       Toast.show({text1:'Please Enter Name'});
       return false
     }else if (contactInfo.email == '' || contactInfo.email.trim().length == 0) {
-
-      
-
       Toast.show({text1:'Please Enter Email'});
       return false
     } else if (!EmailReg.test(contactInfo.email)) {
@@ -103,12 +102,16 @@ const ContactInfoScreen = () => {
   }
 
   if (!resp) {
+
     {console.log('my response after submission',JSON.stringify(resp))}
+    {console.log('my response after submission',JSON.stringify(resp?.property_id))}
       return
   }
   // Toast.show(resp?.message)
-
-
+ {console.log('my response after submission',JSON.stringify(resp))}
+    {console.log('my response after submission',JSON.stringify(resp?.res?.property_id))}
+    setResponse(resp?.res)
+    navigation.navigate('PropertyDetailStepScreen',{propertyId:resp?.res?.property_id,userId:resp?.res?.user_id})
   // props?.navigation?.replace("GetGoals")
 
 
@@ -125,7 +128,7 @@ const ContactInfoScreen = () => {
         <Text>Step 01/03</Text>
       </LinearGradient>
       <Text style={styles.mainText}>Contact Information</Text>
-      <Text style={styles.subText}>What Is Your Full Name And Preferred Contact Information</Text>
+      <Text style={styles.subText}>Please fill in the following information to register with us</Text>
       <View style={styles.subContainer}>
         <CustomTextInput
           SvgImageComponent={<Profile />}
@@ -149,14 +152,20 @@ const ContactInfoScreen = () => {
           onChangeText={(value) => handleInputChang('phone', value)}
           style={styles.inputBoxStyle}
         />
+         <CustomTextInput
+          placeholder="Password"
+          onChangeText={(value) => handleInputChange('password', value)}
+          style={styles.inputBoxStyle}
+        />
         <GoldenButton
           buttonText="Next"
           style={styles.goldenButtonStyle}
           buttonTextStyle={styles.goldenTextStyle}
           onPress={() => {
-            // (SignupPressed())
+            (SignupPressed()
+            )
             //  console.log(contactInfo,'contact info')
-            navigation.navigate('PropertyDetailStepScreen')
+            // navigation.navigate('PropertyDetailStepScreen')
           }}
         />
       </View>

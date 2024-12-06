@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
+    paddingHorizontal:12
   },
   absolute: {
     position: 'absolute',
