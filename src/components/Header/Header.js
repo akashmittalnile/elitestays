@@ -149,6 +149,6 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(2),
     color: "white",
     fontWeight: "400",
-    textAlign: "center"
+    textAlign: "center",
   }
 })

@@ -26,6 +26,7 @@ import { styles } from './SingleInputStyle';
 import useAPI from 'src/hooks/useAPI';
 import Loader from 'components/Loader';
 import { APIEndPoints } from 'src/WebAPI/Service';
+// import SelectableButtonGroup from 'components/SelectableButtonGroup';
 
 
 
@@ -40,16 +41,26 @@ const CurrentManagementFeeCalculation = ({ route }) => {
     const { postAPI, loading } = useAPI()
     const [showModal, setShowModal] = useState(false);
     const [msg, setmsg] = useState('');
+    const [calculatedValue, setcalculatedValue] = useState('');
 
-    const payload = route?.params?.payload
-    console.log({ payload });
+    const { payload, authData } = route?.params
+    console.log({ payload, authData });
     async function calculator() {
         // const bodyJSON = {}
-        const response = await postAPI({ endPoint: APIEndPoints.calculator, bodyJSON: payload })
-        if (response?.res) {
-            setmsg(response?.res?.message)
-            setShowModal(true)
+        const { res, err } = await postAPI({ endPoint: APIEndPoints.calculator, bodyJSON: payload, isSendJSON:false })
+        if (res) {
+            // setmsg(res?.message)
+            // setShowModal(true)
+            // setcalculatedValue(res?.data)
+            next(res)
         }
+    }
+
+    function next(calculatedValueResponse) {
+        // setShowModal(false);
+        // navigation.navigate('ServiceFeeInput');
+        // navigation.navigate('ServiceFeeInput', { payload: { ...payload, calculatedValue } })
+        navigation.navigate('CurrentManagementFeeCalculationResult', { ...route?.params, calculatedValueResponse })
     }
 
     return (
@@ -77,17 +88,14 @@ const CurrentManagementFeeCalculation = ({ route }) => {
                 />
 
             </View>
-            <Modal visible={showModal} style={styles.fullWidthModel}>
+
+
+            <Modal transparent={true} visible={showModal} style={styles.fullWidthModel}>
                 <View style={styles.bottomModel} >
                     <Logo style={styles.logo} />
                     <Text style={{ fontSize: 30, fontWeight: '500', textAlign: 'center', color: '#D7BC70' }}>Calculation Completed</Text>
                     <Text style={{ fontSize: 24, fontWeight: '400', textAlign: 'center', color: 'white', lineHeight: 31, marginTop: 10 }}>{msg}</Text>
-                    <GoldenButton buttonText='View Status' buttonTextStyle={{ fontSize: 14, fontWeight: '700', color: 'black' }} style={{ marginTop: 30, height: 60, }} onPress={
-                        () => {
-                            setShowModal(false);
-                            // navigation.navigate('Appointments');
-                        }
-                    } />
+                    <GoldenButton buttonText='View Status' buttonTextStyle={{ fontSize: 14, fontWeight: '700', color: 'black' }} style={{ marginTop: 30, height: 60, }} onPress={next} />
                     {/* <BlackThemeButton buttonText='Go To Home' buttonTextStyle={{ fontSize: 14, fontWeight: '700', color: '#D7BC70' }} style={{ marginTop: 17, height: 60, marginBottom: 25, backgroundColor: '#393939' }} onPress={() => {
                         setShowModal(false);
                         navigation.navigate('BottomTabs');

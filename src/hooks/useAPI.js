@@ -65,7 +65,7 @@ const useAPI = () => {
             if (err == null) {
                 if (responseJson.status) {
 
-                    return responseJson
+                    return { res: responseJson, err: null }
 
                 } else {
                     toastEnable && Toast.show(responseJson?.message, {
@@ -74,13 +74,13 @@ const useAPI = () => {
                         duration: 2000,
                         animationType: 'zoom-in'
                     });
-                    return null
+                    return { res: null, err: responseJson }
 
 
                 }
             }
             else {
-                return null
+                return { res: null, err: { message: err } }
 
             }
 
@@ -88,32 +88,25 @@ const useAPI = () => {
         }
         catch (error) {
             console.error("getAPI Get", error);
-            return null
+            return { res: null, err: error }
+
         }
 
 
     }, []);
 
     const postAPI = useCallback(async ({ endPoint = '', bodyJSON = null, reloadCart = false, toastEnable = true, catchErrorCallBack = () => { }, isSendJSON = false, loaderOn = true }) => {
-
         try {
             loaderOn && setLoading(true);
             setError(null);
             const formdata = new FormData();
-
             bodyJSON && appendObjectToFormData(formdata, bodyJSON)
-
             let sendBody = null
-
             if (bodyJSON == null)
                 sendBody = null
             else
                 sendBody = isSendJSON ? JSON.stringify(bodyJSON) : formdata
-
-
             // const sendBody = isSendJSON ? JSON.stringify(bodyJSON) : formdata
-
-
             loaderOn && setLoading(true);
             const { responseJson, err } = await requestPostApi(
                 endPoint,
@@ -122,7 +115,6 @@ const useAPI = () => {
                 authToken,
             );
             setLoading(false);
-
             if (reloadCart) {
                 getCartList()
             }

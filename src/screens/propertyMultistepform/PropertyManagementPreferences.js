@@ -21,6 +21,7 @@ import {
     responsiveHeight,
     responsiveWidth,
   } from 'react-native-responsive-dimensions';
+  import { setToken } from 'src/redux/reduxSlices/authSlice';
   import Toast from 'react-native-toast-message';
   import {colors, dimensions} from '../../utils/Constant';
   import {SafeAreaView} from 'react-native-safe-area-context';
@@ -28,6 +29,7 @@ import {
   import useAPI from 'src/hooks/useAPI';
   import ImagePicker from 'react-native-image-crop-picker';
   import Modal from 'react-native-modal';
+  import { useDispatch } from "react-redux"
   const PropertyManagmentPrefrences = ({navigation,route}) => {
     {{console.log('my contactinfo screennn---->>>',route?.params?.propertyId,route?.params?.userId)}}
     const [selectedButton, setSelectedButton] = useState(null);
@@ -39,6 +41,7 @@ import {
     const [images, setImages] = useState('')
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
+    const dispatch = useDispatch()
     const { error,  loading ,postAPI,} = useAPI()
     // Define your buttons with unique IDs
     const buttons = [
@@ -227,9 +230,6 @@ const onGallery = async () => {
   
   //Post the details
   const SignupPressed = async () => {
-  //   if (!Validation()) {
-  //     return
-  // }
   let resp = null
   const endPoint = APIEndPoints.property_listing 
   if (contactInfo) {
@@ -239,14 +239,39 @@ const onGallery = async () => {
       resp = await postAPI({ endPoint: endPoint, bodyJSON: contactInfo })
   }
   
-  if (!resp) {
-    {console.log('my response after submission',JSON.stringify(resp))}
-      return
+  // if (!resp) {
+  //   {console.log('my response after submission03/01',JSON.stringify(resp?.authorization?.token))}
+  //     return
+  // }
+
+  if (resp.res.status) {
+    console.log('yuiuiui tokenvvvvv---->>>>>',resp.res.user)
+    Toast.show({text1:resp.res.message});
+    const token = resp?.res?.authorization?.token
+    const user =resp.res.user
+    console.log('yuiuiui token---->>>>>',token)
+   
+    dispatch(setToken({ authToken: token, user }))
+    navigation.navigate('BottomTab')
+    // next(response.data)
+  } else {
+    throw new Error(response.data.message);
   }
-  navigation.navigate('BottomTab')
+  return
+  
   // Toast.show(resp?.message)
   
-  
+  if (response.data.status) {
+    Toast.show({text1:response.data.message});
+    const token = response?.data?.authorization?.token
+    const user =response?.data?.user
+    console.log('yuiuiui token---->>>>>',token)
+    return
+    dispatch(setToken({ authToken: token, user }))
+    next(response.data)
+  } else {
+    throw new Error(response.data.message);
+  }
   // props?.navigation?.replace("GetGoals")
   
   

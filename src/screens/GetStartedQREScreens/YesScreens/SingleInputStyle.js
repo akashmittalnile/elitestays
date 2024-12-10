@@ -4,7 +4,7 @@ import {
     responsiveHeight,
     responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import { colors } from '../../../utils/Constant';
+import { colors, dimensions } from '../../../utils/Constant';
 
 export const styles = StyleSheet.create({
     container: {
@@ -23,11 +23,12 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     mainText: {
-        marginTop: responsiveHeight(23),
+        marginTop: responsiveHeight(15),
         color: colors.gold,
         textAlign: 'center',
         fontSize: responsiveFontSize(3.5),
         fontWeight: '500',
+        width:'98%'
     },
     subContainer: {
         alignSelf: 'center',
@@ -46,8 +47,10 @@ export const styles = StyleSheet.create({
         marginTop: responsiveHeight(1),
         color: 'white',
         textAlign: 'center',
-        fontSize: responsiveFontSize(2.5),
-        letterSpacing: responsiveWidth(0.1),
+        fontSize: responsiveFontSize(2),
+        width:dimensions.SCREEN_WIDTH*0.90,
+        alignSelf:'center'
+        // letterSpacing: responsiveWidth(0.1),
     },
     goldenButtonStyle: {
         marginTop: responsiveHeight(2),
@@ -80,5 +83,6 @@ export const styles = StyleSheet.create({
         padding: 20,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
+        marginTop: '100%'
     }
 });

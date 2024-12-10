@@ -68,7 +68,7 @@ const BottomTab = ({ userToken }) => {
                                 textColor={focused ? 'red': 'grey'}
                                 marginTop={5}
                             /> */}
-                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white'}}>Home</Text>
+                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white',marginTop:5}}>Home</Text>
                         </View>
                     ),
                 }}
@@ -85,7 +85,7 @@ const BottomTab = ({ userToken }) => {
                             ) : (
                                 <MyListngLogo height={24} width={24}></MyListngLogo>
                             )}
-                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white'}}>My Listing</Text>
+                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white',marginTop:5}}>My Listing</Text>
                         </View>
                     ),
                 }}
@@ -102,7 +102,7 @@ const BottomTab = ({ userToken }) => {
                             ) : (
                                 <ChatSupportLogo></ChatSupportLogo>
                             )}
-                          <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white'}}>Chat Support</Text>
+                          <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white',marginTop:5}}>Chat Support</Text>
                         </View>
                     ),
                 }}
@@ -118,7 +118,7 @@ const BottomTab = ({ userToken }) => {
                             ) : (
                                 <ProfileLogo></ProfileLogo>
                             )}
-                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white'}}>Profile</Text>
+                            <Text style={{fontWeight:'400',fontSize:12,color:focused ? '#D7BC70': 'white',marginTop:5}}>Profile</Text>
                         </View>
                     ),
                 }}

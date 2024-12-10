@@ -24,6 +24,7 @@ import DeviceInfo from 'react-native-device-info';
 import { clearToken } from 'src/redux/reduxSlices/authSlice';
 import { styles } from './SingleInputStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Slider from '@react-native-community/slider';
 
 
 const CurrentManagement = () => {
@@ -31,7 +32,7 @@ const CurrentManagement = () => {
   const dispatch = useDispatch();
 
 
-  const [percentage, setpercentage] = useState('');
+  const [percentage, setpercentage] = useState('0');
 
   function next() {
     navigation.navigate('MonthlyRevenue', {
@@ -57,9 +58,22 @@ const CurrentManagement = () => {
           styles.text
         }>{`What percentage commission do you currently pay your management company?`}</Text>
       <View style={styles.subContainer}>
-        <CustomTextInput onChangeText={(text) => { setpercentage(text) }} style={styles.inputBoxStyle} value={percentage} placeholder={'Enter Percentage'} />
-
-
+        {/* <CustomTextInput onChangeText={(text) => { setpercentage(text) }} style={styles.inputBoxStyle} value={percentage} placeholder={'Enter Percentage'} /> */}
+        <View style={[ {width: '100%', justifyContent: 'center', alignItems: 'center'}]}>
+          <Text style={styles.text}>{percentage + "%"}</Text>
+        </View>
+        <Slider
+          style={{ width: responsiveWidth(90), height: 40 }}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#AB8B51"
+          maximumTrackTintColor='#D7BC70'
+          // onSlidingComplete={(val)=>{console.log("d",val) }}
+          onValueChange={(val) => { 
+            // console.log("d", val) 
+            setpercentage(parseInt(val))
+          }}
+        />
         <GoldenButton
           buttonText="Next"
           style={styles.goldenButtonStyle}

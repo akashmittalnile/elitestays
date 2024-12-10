@@ -109,7 +109,7 @@ const ContactInfoScreen = () => {
   }
   // Toast.show(resp?.message)
  {console.log('my response after submission',JSON.stringify(resp))}
-    {console.log('my response after submission',JSON.stringify(resp?.res?.property_id))}
+    {console.log('my response after submissionyyyy',JSON.stringify(resp?.res))}
     setResponse(resp?.res)
     navigation.navigate('PropertyDetailStepScreen',{propertyId:resp?.res?.property_id,userId:resp?.res?.user_id})
   // props?.navigation?.replace("GetGoals")

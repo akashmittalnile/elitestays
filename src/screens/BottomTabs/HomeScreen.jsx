@@ -1,5 +1,12 @@
-import {View, StyleSheet, Text, Image, ScrollView, Alert} from 'react-native';
-import React, {useContext} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ScrollView,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
 import Header from 'components/Header/Header';
 import LinearGradient from 'react-native-linear-gradient';
 import {BlurView} from '@react-native-community/blur';
@@ -10,8 +17,8 @@ import Sidebar from 'components/Sidebar/Sidebar';
 import {SidebarContext} from 'components/context/SidebarContext';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import { dimensions } from 'utils/Constant';
-
+import {dimensions} from '../../utils/Constant';
+import React, { useContext, useEffect, useState } from 'react'
 const PropertyData = [
   {
     id: 1,
@@ -69,7 +76,8 @@ const testimonials = [
 const HomeScreen = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const navigation = useNavigation();
-
+  const token = useSelector(state => state.auth.authToken)
+console.log('my token--->>>',token)
   // const context = useContext(SidebarContext);
 
   // const { isOpen, toggleSidebar } = context;
@@ -132,118 +140,133 @@ const HomeScreen = () => {
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={{color: 'white'
-            , fontSize: 16, fontWeight: '600'}}>
+          <Text style={{color: 'white', fontSize: 16, fontWeight: '600'}}>
             ${item.price}
           </Text>
-          <Text style={{color: '#D7BC70', fontSize: 13,marginTop:2}}>/month</Text>
+          <Text style={{color: '#D7BC70', fontSize: 13, marginTop: 2}}>
+            /month
+          </Text>
         </View>
       </View>
     </View>
   );
+  useEffect(() => {
+    // getPlans()
 
+
+  }, [])
   return (
-    <ScrollView style={styles.scrollContainer}>
-      {/* {isOpen && <Sidebar />} */}
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#000000', '#232323']}
-          start={{x: 0.5, y: 0}}
-          end={{x: 0.5, y: 1}}
-          locations={[0.1975, 0.8855]}
-          style={styles.customHeader}>
-          <BlurView
-            style={styles.blurOverlay}
-            blurType="dark"
-            blurAmount={6}
-            reducedTransparencyFallbackColor="black">
-            <Header
-              heading="Home"
-              showBackButton={false}
-              showNotification={true}
-              showGridIcon={true}
-              headingStyle={{color: 'white', fontSize: 20}}
-              // toggleSidebar={toggleSidebar}
-            />
-          </BlurView>
-        </LinearGradient>
-        <View style={[styles.heroSection]}>
-        
-          <View style={{flexDirection: 'row', justifyContent: 'space-between',width:'100%',alignItems:'center'}}>
-            <View>
-              <Text style={{color: 'white', fontSize: 18}}>Post New</Text>
-              <Text
-                style={{
-                  color: '#D7BC70',
-                  fontSize: 18,
-                  marginTop: 5,
-                  fontWeight: '500',
-                }}>
-                Properties
-              </Text>
-              <GoldenButton
-                buttonText="Post"
-                style={styles.goldenButton}
-                buttonTextStyle={{color: 'black', fontWeight: '500'}}
-                onPress={() => navigation.navigate('ContactInfoScreen')}
+    <SafeAreaView style={{backgroundColor: 'black'}}>
+      <ScrollView style={styles.scrollContainer}>
+        {/* {isOpen && <Sidebar />} */}
+        <View style={styles.container}>
+          <LinearGradient
+            colors={['#000000', '#232323']}
+            start={{x: 0.5, y: 0}}
+            end={{x: 0.5, y: 1}}
+            locations={[0.1975, 0.8855]}
+            style={styles.customHeader}>
+            <BlurView
+              style={styles.blurOverlay}
+              blurType="dark"
+              blurAmount={6}
+              reducedTransparencyFallbackColor="black">
+              <Header
+                heading="Home"
+                showBackButton={false}
+                showNotification={true}
+                showGridIcon={true}
+                headingStyle={{color: 'white', fontSize: 20}}
+                // toggleSidebar={toggleSidebar}
+              />
+            </BlurView>
+          </LinearGradient>
+          <View style={[styles.heroSection]}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+                alignItems: 'center',
+              }}>
+              <View>
+                <Text style={{color: 'white', fontSize: 18}}>Post New</Text>
+                <Text
+                  style={{
+                    color: '#D7BC70',
+                    fontSize: 18,
+                    marginTop: 5,
+                    fontWeight: '500',
+                  }}>
+                  Properties
+                </Text>
+                <GoldenButton
+                  buttonText="Post"
+                  style={styles.goldenButton}
+                  buttonTextStyle={{color: 'black', fontWeight: '500'}}
+                  onPress={() => navigation.navigate('ContactInfoScreen')}
+                />
+              </View>
+              <Image
+                source={require('../../assets/Images/GroupImage.png')}
+                style={{width: 220, height: 190, resizeMode: 'cover'}}
               />
             </View>
-            <Image source={require('../../assets/Images/GroupImage.png')} style={{ width: 220, height: 190 ,resizeMode:'cover'}} />
           </View>
-        </View>
-        <FlatList
-          data={PropertyData}
-          keyExtractor={item => item.id.toString()}
-          horizontal={true}
-          renderItem={renderItem}
-          contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
-          showsHorizontalScrollIndicator={false}
-        />
-        <View style={styles.returnCalculatorView}>
-          <Image
-            source={require('../../assets/Images/returnCalculatorBgImage.png')}
-            style={styles.calcbgimage}
+          <FlatList
+            data={PropertyData}
+            keyExtractor={item => item.id.toString()}
+            horizontal={true}
+            renderItem={renderItem}
+            contentContainerStyle={{paddingLeft: 20, paddingVertical: 20}}
+            showsHorizontalScrollIndicator={false}
           />
-          <CalculatorLogo
-            width={70}
-            height={80}
-            style={styles.calculatorLogo}
-          />
-          <View style={styles.calculatorView}>
-            <Text style={{color: 'white', fontSize: 15}}>
-              Return Calculator
-            </Text>
-            <GoldenButton
-              buttonText="Calculate"
-              style={{width: 100, height: 40, marginTop: 5}}
-              buttonTextStyle={{
-                color: 'black',
-                fontSize: 14,
-                fontWeight: '500',
-              }}
+          <View style={styles.returnCalculatorView}>
+            <Image
+              source={require('../../assets/Images/returnCalculatorBgImage.png')}
+              style={styles.calcbgimage}
             />
+            <CalculatorLogo
+              width={70}
+              height={85}
+              style={styles.calculatorLogo}
+            />
+            <View style={[styles.calculatorView, {paddingHorizontal: 20}]}>
+              <Text style={{color: 'white', fontSize: 15}}>
+                Return Calculator
+              </Text>
+              <GoldenButton
+                buttonText="Calculate"
+                style={{width: 150, height: 40, marginTop: 5}}
+                buttonTextStyle={{
+                  color: 'black',
+                  fontSize: 14,
+                  fontWeight: '500',
+                }}
+              />
+            </View>
           </View>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 20,
+              fontWeight: '500',
+              left: 20,
+              top: 20,
+            }}>
+            Testimonials
+          </Text>
+          <FlatList
+            data={testimonials}
+            keyExtractor={item => item.id}
+            renderItem={renderTestimonial}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.testimonialList}
+          />
         </View>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 20,
-            fontWeight: '500',
-            left: 20,
-            top: 20,
-          }}>
-          Testimonials
-        </Text>
-        <FlatList
-          data={testimonials}
-          keyExtractor={item => item.id}
-          renderItem={renderTestimonial}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.testimonialList}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -320,17 +343,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#131111',
-    padding: 15,
+    height: 106,
     borderRadius: 10,
     marginTop: 20,
-    marginHorizontal: 20,
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: '#212020',
+    width: '90%',
+    alignSelf: 'center',
   },
   calcbgimage: {
     ...StyleSheet.absoluteFillObject,
     resizeMode: 'cover',
+    overflow:'hidden'
   },
   calculatorLogo: {
     position: 'absolute',
@@ -358,8 +380,8 @@ const styles = StyleSheet.create({
     marginLeft: -15,
   },
   profileImage: {
-    width: 120,
-    height: 120,
+    width: 80,
+    height: 80,
     borderRadius: 60,
   },
   testimonialText: {
@@ -367,20 +389,20 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '500',
   },
   ratingImage: {
     width: 180,
     height: 30,
-    marginTop: 16,
+    // marginTop: 16,
   },
   testimonialDescription: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 16,
     lineHeight: 30,
-    marginTop: -10,
-    marginLeft: 7,
+    marginTop: -15,
+   
   },
   testimonialList: {
     paddingHorizontal: 20,

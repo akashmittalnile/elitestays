@@ -7,7 +7,6 @@ export const fetchToken = createAsyncThunk('auth/fetchToken', async () => {
   const user = await AsyncStorage.getItem('user')
   const parsedUser = JSON.parse(user);
   console.log('fetchToken', { authToken, parsedUser });
-  
   return { authToken, user: parsedUser };
 });
 
@@ -21,7 +20,6 @@ const authSlice = createSlice({
   },
   reducers: {
     setToken: (state, action) => {
-      
       state.authToken = action.payload.authToken;
       state.user = action.payload.user;
       state.isAuthenticated = !!action.payload.authToken;

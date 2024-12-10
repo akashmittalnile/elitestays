@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ImageBackground,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native"
 import React, { useState, useEffect } from "react"
 import BgImage from "assets/Images/Login.png"
@@ -20,7 +21,7 @@ import BorderLessButton from "components/Buttons/BorderLessButton"
 import CustomTextInput from "components/Input/CustomTextInput"
 import CustomPasswordInput from "components/Input/CustomPasswordInput"
 import Header from "components/Header/Header"
-
+import Toast from 'react-native-toast-message';
 import axios from "axios"
 import { useToast } from "react-native-toast-notifications"
 import { useDispatch } from "react-redux"
@@ -59,21 +60,23 @@ const SignIn = ({navigation}) => {
           }
         }
       )
-      toast.show(response.data.message, {
-        type: "success",
-        placement: "top",
-        duration: 2000,
-        animationType: "zoom-in"
-      })
+      Toast.show({text1:response.data.message});
+      // toast.show(response.data.message, {
+      //   type: "success",
+      //   placement: "top",
+      //   duration: 2000,
+      //   animationType: "zoom-in"
+      // })
       setShowLogout(false)
       dispatch(clearToken())
     } catch (error) {
-      toast.show(error.response.data.message, {
-        type: "danger",
-        placement: "top",
-        duration: 2000,
-        animationType: "zoom-in"
-      })
+      Toast.show({text1:response.data.message});
+      // toast.show(error.response.data.message, {
+      //   type: "danger",
+      //   placement: "top",
+      //   duration: 2000,
+      //   animationType: "zoom-in"
+      // })
     }
   }
 
@@ -118,7 +121,6 @@ const SignIn = ({navigation}) => {
   const handleSignin = async () => {
     // handleSignInNew().catch((err) => console.log({ err }))
     // return
-
     try {
       const response = await axios.post(`${process.env.AUTH_URL}/login`, {
         email: email,
@@ -129,34 +131,24 @@ const SignIn = ({navigation}) => {
         response.data.message ===
         "You seems to be logged in another device. Please Click on below below to logout from all devices."
       ) {
-        toast.show(response.data.message, {
-          type: "error",
-          placement: "top",
-          duration: 2000,
-          animationType: "zoom-in"
-        })
-
+        Toast.show({text1:response.data.message});
         setUserToken(response.data.token)
         setShowLogout(true)
       } else {
         const token = response.data.authorization.token
         const user = response.data.user
         dispatch(setToken({ authToken: token, user }))
-        toast.show("Login Success", {
-          type: "success",
-          placement: "top",
-          duration: 2000,
-          animationType: "zoom-in"
-        })
-        navigation.navigate("UserSetupCompleteScreen")
+        Toast.show({text1:"Login Success"});
+        navigation.navigate("BottomTab")
       }
     } catch (error) {
-      toast.show(error.response.data.message, {
-        type: "danger",
-        placement: "top",
-        duration: 2000,
-        animationType: "zoom-in"
-      })
+      // toast.show(error.response.data.message, {
+      //   type: "danger",
+      //   placement: "top",
+      //   duration: 2000,
+      //   animationType: "zoom-in"
+      // })
+      Toast.show({text1:error.response.data.message});
     }
   }
 
@@ -174,6 +166,7 @@ const SignIn = ({navigation}) => {
         style={styles.bgImage}
         resizeMode="contain"
       />
+         <ScrollView>
       <Logo style={styles.logo} />
       <Text style={styles.mainText}>Login</Text>
       <Text
@@ -207,7 +200,7 @@ const SignIn = ({navigation}) => {
             handleSignin()
           }}
         />
-        <View style={styles.policy}>
+        <View style={[styles.policy,{flexDirection:'row',}]}>
           <Text
             style={[
               styles.policyText,
@@ -215,9 +208,21 @@ const SignIn = ({navigation}) => {
               { marginHorizontal: responsiveWidth(1), color: "white" }
             ]}
           >
-            Don’t Have An Account?
+            Don’t Have An Account? 
           </Text>
+          <TouchableOpacity onPress={()=>{navigation.navigate('GetStarted')}}>
+          <Text  style={[
+              styles.policyText,
+              styles.policyButton,
+              { marginHorizontal: responsiveWidth(1), color:'#D7BC70' }
+            ]}>Join Us</Text>
+          </TouchableOpacity>
+         
         </View>
+      </View>
+      </ScrollView>
+      <View style={{marginBottom:40}}>
+
       </View>
       {showLogout && (
         <TouchableOpacity
@@ -245,7 +250,7 @@ export default SignIn
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative"
+    // position: "relative"
   },
   bgImage: {
     position: "absolute",
@@ -259,7 +264,7 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   mainText: {
-    marginTop: responsiveHeight(23),
+    marginTop: responsiveHeight(17),
     color: colors.gold,
     textAlign: "center",
     fontSize: responsiveFontSize(3.5),

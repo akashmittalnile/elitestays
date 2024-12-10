@@ -37,7 +37,7 @@ const MonthlyRevenue = ({route}) => {
   
 
   function next() {
-    navigation.navigate('CurrentManagementFeeCalculation', {payload: {...payload,income}})
+    navigation.navigate('Plans', {payload: {...payload,income}})
   }
 
   return (
